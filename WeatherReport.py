@@ -1,9 +1,9 @@
 import calendar
 from termcolor import colored
- 
+
 
 class WeatherReport:
-    def __init__(self, weather_data_calculations = {}):
+    def __init__(self, weather_data_calculations={}):
         self.weather_data_calculations = weather_data_calculations
         pass
 
@@ -12,19 +12,22 @@ class WeatherReport:
             print("{}".format(year))
             print("Highest: {}C on {} {}".format(
                 self.weather_data_calculations[year]["max_temp"],
-                calendar.month_name[self.weather_data_calculations[year]["max_month"]],
+                calendar.month_name[self.weather_data_calculations[year]
+                                    ["max_month"]],
                 self.weather_data_calculations[year]["max_day"]))
 
             print("Lowest: {}C on {} {}".format(
                 self.weather_data_calculations[year]["min_temp"],
-                calendar.month_name[self.weather_data_calculations[year]["min_month"]],
+                calendar.month_name[self.weather_data_calculations[year]
+                                    ["min_month"]],
                 self.weather_data_calculations[year]["min_day"]))
 
             print("Humidity: {}C on {} {}".format(
                 self.weather_data_calculations[year]["max_humidity"],
-                calendar.month_name[self.weather_data_calculations[year]["max_humidity_month"]],
+                calendar.month_name[self.weather_data_calculations[year]
+                                    ["max_humidity_month"]],
                 self.weather_data_calculations[year]["max_humidity_day"]))
-            
+
         else:
             print("{} data is not available.".format(year))
 
@@ -48,18 +51,17 @@ class WeatherReport:
             for day in weather_data[year][month]:
                 highest_temp_sign = ""
                 lowest_temp_sign = ""
-                max_temp = int(weather_data[year][month][day]["Max TemperatureC"] or 0)
-                min_temp = int(weather_data[year][month][day]["Min TemperatureC"] or 0)
+                max_temp = int(
+                    weather_data[year][month][day]["Max TemperatureC"] or 0)
+                min_temp = int(
+                    weather_data[year][month][day]["Min TemperatureC"] or 0)
                 for i in range(max_temp):
                     highest_temp_sign = highest_temp_sign + "+"
 
                 for i in range(min_temp):
                     lowest_temp_sign = lowest_temp_sign + "+"
-                
+
                 # print("{} {}C".format(colored(highest_temp_sign, 'red'), max_temp))
                 # print("{} {}C".format(colored(lowest_temp_sign, 'blue'), min_temp))
-                print("{} {}{} {}C - {}C".format(day, colored(lowest_temp_sign, 'blue'),colored(highest_temp_sign, 'red'),
-                                             min_temp, max_temp))
-            
-
-        
+                print("{} {}{} {}C - {}C".format(day, colored(lowest_temp_sign, 'blue'), colored(highest_temp_sign, 'red'),
+                                                 min_temp, max_temp))
