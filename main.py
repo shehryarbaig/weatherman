@@ -21,36 +21,34 @@ def main():
         help="For a given month draw two horizontal bar charts on the console for the highest and lowest temperature on each day. Highest in red and lowest in blue.")
     args = arg_parser.parse_args()
 
-    if args.dir and os.path.exists(args.dir):
-        murree_weather_data = {}
-        weather_data_parser = WeatherDataParser(murree_weather_data, args.dir)
-        weather_data_parser.parse_data()
-        weather_data_calculations = {}
-        weather_data_calculator = WeatherDataCalculator(
-            weather_data_calculations, murree_weather_data)
-
-        if args.e:
-            weather_data_calculator.calculate_year_results(int(args.e))
-            report = WeatherReport(weather_data_calculations)
-            report.generate_years_report(int(args.e))
-            print("--------------------------------------")
-
-        if args.a:
-            year = int(args.a.split("/")[0])
-            month = int(args.a.split("/")[1])
-            weather_data_calculator.calculate_avg_month_results(year, month)
-            report = WeatherReport(weather_data_calculations)
-            report.generate_avg_temp_report(year, month)
-            print("--------------------------------------")
-
-        if args.c:
-            year = int(args.c.split("/")[0])
-            month = int(args.c.split("/")[1])
-            report = WeatherReport()
-            report.draw_bars(murree_weather_data, year, month)
-
-    else:
+    if not args.dir or not os.path.exists(args.dir):
         print("Directory Not Found.")
+        return
+
+    weather_data_parser = WeatherDataParser(args.dir)
+    weather_data_parser.parse_weather_data()
+    weather_data_calculator = WeatherDataCalculator()
+
+    if args.e:
+        year_weather_data = weather_data_parser.get_filtered_data(int(args.e))
+        records = weather_data_calculator.calculate_year_temperatures(year_weather_data)
+        report = WeatherReport()
+        report.generate_year_report(args.e, records)
+
+    if args.a:
+        year = int(args.a.split("/")[0])
+        month = int(args.a.split("/")[1])
+        month_weather_data = weather_data_parser.get_filtered_data(year, month)
+        averages = weather_data_calculator.calculate_avg_month_results(month_weather_data)
+        report = WeatherReport()
+        report.generate_avg_temp_report(averages, year, month)
+
+    if args.c:
+        year = int(args.c.split("/")[0])
+        month = int(args.c.split("/")[1])
+        month_weather_data = weather_data_parser.get_filtered_data(year, month)
+        report = WeatherReport()
+        report.draw_bars(month_weather_data, year, month)
 
 
 main()

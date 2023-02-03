@@ -1,46 +1,39 @@
 import glob
 import os
 from datetime import datetime
+from WeatherRecord import WeatherRecord
+import csv
 
 
 class WeatherDataParser:
-    def __init__(self, weather_data, path) -> None:
-        self.weather_data = weather_data
+
+    def __init__(self, path) -> None:
+        self.weather_records = []
         self.path = path
-
-    def parse_data(self):
-        weather_data_files = self.get_files()
-        for filename in weather_data_files:
-            with open(os.path.join(os.getcwd(), filename), 'r') as file_data:
-                weather_headings = []
-                weather_readings = []
-
-                for i, line in enumerate(file_data):
-                    if (i == 0):
-                        weather_headings = [heading.strip()
-                                            for heading in line.split(",")]
-                    else:
-                        weather_readings = [value.strip()
-                                            for value in line.split(",")]
-                        date_str = weather_readings[0]
-                        date_object = datetime.strptime(date_str, "%Y-%m-%d")
-                        year = date_object.year
-                        month = date_object.month
-                        day = date_object.day
-
-                        if not year in self.weather_data:
-                            self.weather_data[year] = {}
-
-                        if not month in self.weather_data[year]:
-                            self.weather_data[year][month] = {}
-
-                        if not day in self.weather_data[year][month]:
-                            self.weather_data[year][month][day] = {}
-
-                        for j, reading in enumerate(weather_readings):
-                            self.weather_data[year][month][day][weather_headings[j]] = reading
 
     def get_files(self):
         os.chdir(r'%s' % self.path)
-        my_files = glob.glob('*.txt')
-        return my_files
+        return glob.glob('*.txt')
+
+    def parse_weather_data(self):
+        weather_data_files = self.get_files()
+        for filename in weather_data_files:
+            with open(os.path.join(os.getcwd(), filename), 'r') as file_data:
+                reader = csv.DictReader(file_data)
+                for row in reader:
+                    self.weather_records.append(WeatherRecord(
+                        row["PKT"],
+                        row["Max TemperatureC"],
+                        row["Min TemperatureC"],
+                        row["Max Humidity"],
+                        row[" Mean Humidity"]))
+
+    def get_filtered_data(self, year):
+        return [record for record in self.weather_records if record.date.year == year]
+
+    def get_filtered_data(self, year, month=None):
+        if month == None:
+            return [record for record in self.weather_records if record.date.year == year]
+        
+        return [record for record in self.weather_records if record.date.year == year and 
+        record.date.month == month]
