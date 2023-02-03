@@ -1,24 +1,6 @@
 class WeatherDataCalculator:
     def __init__(self):
         pass
-        # self.weather_data_calculations = weather_data_calculations
-        # self.weather_data = weather_data
-
-    def calculate_year_results(self, year):
-        if year in self.weather_data.keys():
-            max_temp, max_month, max_day, min_temp, min_month, min_day, max_humidity, max_humidity_month, max_humidity_day = \
-                self.calculate_temperatures(year)
-            self.weather_data_calculations[year] = {
-                "max_temp": max_temp,
-                "max_month": max_month,
-                "max_day": max_day,
-                "min_temp": min_temp,
-                "min_month": min_month,
-                "min_day": min_day,
-                "max_humidity": max_humidity,
-                "max_humidity_month": max_humidity_month,
-                "max_humidity_day": max_humidity_day
-            }
 
     def calculate_year_temperatures(self, year_weather_data):
         if not year_weather_data:
