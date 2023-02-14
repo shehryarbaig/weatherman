@@ -1,8 +1,8 @@
+import csv
 import glob
 import os
-from datetime import datetime
+
 from WeatherRecord import WeatherRecord
-import csv
 
 
 class WeatherDataParser:
@@ -22,14 +22,11 @@ class WeatherDataParser:
                 reader = csv.DictReader(file_data)
                 for row in reader:
                     self.weather_records.append(WeatherRecord(
-                        row["PKT"],
+                        row["PKT"] if "PKT" in row else row["PKST"],
                         row["Max TemperatureC"],
                         row["Min TemperatureC"],
                         row["Max Humidity"],
                         row[" Mean Humidity"]))
-
-    def get_filtered_data(self, year):
-        return [record for record in self.weather_records if record.date.year == year]
 
     def get_filtered_data(self, year, month=None):
         if month == None:

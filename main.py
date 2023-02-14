@@ -1,7 +1,8 @@
-import os
 import argparse
-from WeatherDataParser import WeatherDataParser
+import os
+
 from WeatherDataCalculator import WeatherDataCalculator
+from WeatherDataParser import WeatherDataParser
 from WeatherReport import WeatherReport
 
 
@@ -50,5 +51,5 @@ def main():
         report = WeatherReport()
         report.draw_bars(month_weather_data, year, month)
 
-
-main()
+if __name__ == "__main__":
+    main()

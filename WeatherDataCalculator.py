@@ -1,56 +1,38 @@
 class WeatherDataCalculator:
-    def __init__(self):
-        pass
 
-    def calculate_year_temperatures(self, year_weather_data):
-        if not year_weather_data:
+    def calculate_year_temperatures(self, yearly_weather_records):
+        if not yearly_weather_records:
             return []
 
-        max_temp = year_weather_data[0].max_temperature
-        min_temp = year_weather_data[0].min_temperature
-        max_humidity = year_weather_data[0].max_humidity
-        max_record = year_weather_data[0]
-        min_record = year_weather_data[0]
-        max_humidity_record = year_weather_data[0]
-
-        for record in year_weather_data:
-            if not record.max_temperature is None and record.max_temperature > max_temp:
-                max_temp = record.max_temperature
-                max_record = record
-
-            if not record.min_temperature is None and record.min_temperature < min_temp:
-                min_temp = record.min_temperature
-                min_record = record
-
-            if not record.max_humidity is None and record.max_humidity > max_humidity:
-                max_humidity = record.max_humidity
-                max_humidity_record = record
+        max_record = max(yearly_weather_records,
+                         key=lambda record: record.max_temperature)
+        min_record = min(yearly_weather_records,
+                         key=lambda record: record.min_temperature)
+        max_humidity_record = max(
+            yearly_weather_records, key=lambda record: record.max_humidity)
 
         return (max_record, min_record, max_humidity_record)
 
     def calculate_avg_month_results(self, month_weather_data):
         if not month_weather_data:
             return []
+        
+        valid_highest_records = [
+            record for record in month_weather_data if record.max_temperature is not None]
 
-        total_highest = 0
-        total_highest_day = 0
-        total_lowest = 0
-        total_lowest_day = 0
-        total_mean_humidity = 0
-        total_mean_humidity_days = 0
+        average_highest_temperature = round(sum(
+            record.max_temperature for record in valid_highest_records)/len(valid_highest_records), 1)
+        
+        valid_lowest_records = [
+            record for record in month_weather_data if record.min_temperature is not None]
 
-        for record in month_weather_data:
-            if not record.max_temperature is None:
-                total_highest += record.max_temperature
-                total_highest_day += 1
-            if not record.min_temperature is None:
-                total_lowest += record.min_temperature
-                total_lowest_day += 1
+        average_lowest_temperature = round(sum(
+            record.min_temperature for record in valid_lowest_records)/len(valid_lowest_records), 1)
+        
+        valid_mean_humudity_records = [
+            record for record in month_weather_data if record.mean_humidity is not None]
 
-            if not record.mean_humidity is None:
-                total_mean_humidity += record.mean_humidity
-                total_mean_humidity_days += 1
-
-        return (round(total_highest/total_highest_day, 1), round(total_lowest/total_lowest_day, 1), round(
-            total_mean_humidity/total_mean_humidity_days, 1
-        ))
+        average_mean_humidity_temperature = round(sum(
+            record.mean_humidity for record in valid_mean_humudity_records)/len(valid_mean_humudity_records), 1)
+            
+        return (average_highest_temperature, average_lowest_temperature , average_mean_humidity_temperature)

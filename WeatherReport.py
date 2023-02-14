@@ -1,10 +1,9 @@
 import calendar
+
 from termcolor import colored
 
 
 class WeatherReport:
-    def __init__(self):
-        pass
 
     def generate_year_report(self, year, records):
         if len(records) == 0:
@@ -40,15 +39,5 @@ class WeatherReport:
             print("{} {}".format(calendar.month_name[month], year))
 
             for record in month_weather_data:
-                highest_temp_sign = ""
-                lowest_temp_sign = ""
-                max_temp = int(record.max_temperature or 0)
-                min_temp = int(record.min_temperature or 0)
-                for i in range(max_temp):
-                    highest_temp_sign += "+"
-
-                for i in range(min_temp):
-                    lowest_temp_sign += "+"
-
                 print(
-                    f"{record.date.day} {colored(lowest_temp_sign, 'blue')}{colored(highest_temp_sign, 'red')} {min_temp}C - {max_temp}C")
+                    f"{record.date.day} {colored('+' * (record.min_temperature or 0), 'blue')}{colored('+' * (record.max_temperature or 0), 'red')} {(record.min_temperature or 0)}C - {(record.max_temperature or 0)}C")

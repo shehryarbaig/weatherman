@@ -9,7 +9,6 @@ class WeatherRecord:
         self.min_temperature = self.assign_value(min_temperature)
         self.max_humidity = self.assign_value(max_humidity)
         self.mean_humidity = self.assign_value(mean_humidity)
-        pass
 
     def assign_value(self, string_value):
         if string_value:
