@@ -13,5 +13,3 @@ class WeatherRecord:
     def assign_value(self, string_value):
         if string_value:
             return int(string_value)
-        else:
-            return None

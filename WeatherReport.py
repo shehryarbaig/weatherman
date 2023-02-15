@@ -28,17 +28,17 @@ class WeatherReport:
 
         print("{} {}".format(calendar.month_name[month], year))
         print(f"Highes Average: {averages[0]}C")
-
         print(f"Lowest Average: {averages[1]}C")
-
         print(f"Average Mean Humidity: {averages[2]}C")
         print("--------------------------------------")
 
     def draw_bars(self, month_weather_data, year, month):
-        if month_weather_data:
-            print("{} {}".format(calendar.month_name[month], year))
+        if not month_weather_data:
+            return
+        
+        print("{} {}".format(calendar.month_name[month], year))
 
-            for record in month_weather_data:
-                blue_temp_bars = colored('+' * (record.min_temperature or 0), 'blue')
-                red_temp_bars = colored('+' * (record.max_temperature or 0), 'red')
-                print(f"{record.date.day} {blue_temp_bars}{red_temp_bars} {(record.min_temperature or 0)}C - {(record.max_temperature or 0)}C")
+        for record in month_weather_data:
+            blue_temp_bars = colored('+' * (record.min_temperature or 0), 'blue')
+            red_temp_bars = colored('+' * (record.max_temperature or 0), 'red')
+            print(f"{record.date.day} {blue_temp_bars}{red_temp_bars} {(record.min_temperature or 0)}C - {(record.max_temperature or 0)}C")

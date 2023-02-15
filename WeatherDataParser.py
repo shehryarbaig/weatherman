@@ -22,7 +22,7 @@ class WeatherDataParser:
                 reader = csv.DictReader(file_data)
                 for row in reader:
                     self.weather_records.append(WeatherRecord(
-                        row["PKT"] if "PKT" in row else row["PKST"],
+                        row.get("PKT") or row["PKST"],
                         row["Max TemperatureC"],
                         row["Min TemperatureC"],
                         row["Max Humidity"],
