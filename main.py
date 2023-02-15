@@ -37,16 +37,14 @@ def main():
         report.generate_year_report(args.e, records)
 
     if args.a:
-        year = int(args.a.split("/")[0])
-        month = int(args.a.split("/")[1])
+        year, month = [int(a) for a in args.a.split("/")]
         month_weather_data = weather_data_parser.get_filtered_data(year, month)
         averages = weather_data_calculator.calculate_avg_month_results(month_weather_data)
         report = WeatherReport()
         report.generate_avg_temp_report(averages, year, month)
 
     if args.c:
-        year = int(args.c.split("/")[0])
-        month = int(args.c.split("/")[1])
+        year, month = [int(a) for a in args.c.split("/")]
         month_weather_data = weather_data_parser.get_filtered_data(year, month)
         report = WeatherReport()
         report.draw_bars(month_weather_data, year, month)

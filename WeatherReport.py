@@ -6,7 +6,7 @@ from termcolor import colored
 class WeatherReport:
 
     def generate_year_report(self, year, records):
-        if len(records) == 0:
+        if not records:
             print("{} data is not available.".format(year))
             return
 
@@ -22,7 +22,7 @@ class WeatherReport:
         print("--------------------------------------")
 
     def generate_avg_temp_report(self, averages, year, month):
-        if len(averages) == 0:
+        if not averages:
             print("{} data is not available.".format(year))
             return
 
@@ -35,9 +35,10 @@ class WeatherReport:
         print("--------------------------------------")
 
     def draw_bars(self, month_weather_data, year, month):
-        if len(month_weather_data) != 0:
+        if month_weather_data:
             print("{} {}".format(calendar.month_name[month], year))
 
             for record in month_weather_data:
-                print(
-                    f"{record.date.day} {colored('+' * (record.min_temperature or 0), 'blue')}{colored('+' * (record.max_temperature or 0), 'red')} {(record.min_temperature or 0)}C - {(record.max_temperature or 0)}C")
+                blue_temp_bars = colored('+' * (record.min_temperature or 0), 'blue')
+                red_temp_bars = colored('+' * (record.max_temperature or 0), 'red')
+                print(f"{record.date.day} {blue_temp_bars}{red_temp_bars} {(record.min_temperature or 0)}C - {(record.max_temperature or 0)}C")
